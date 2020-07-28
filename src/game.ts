@@ -23,6 +23,23 @@ shootingArea.addComponent(
 shootingArea.addComponent(redMaterial)
 engine.addEntity(shootingArea)
 
+// Create trigger for shooting area
+let triggerBox = new utils.TriggerBoxShape(new Vector3(16, 16, 4), Vector3.Zero())
+
+shootingArea.addComponent(
+  new utils.TriggerComponent(
+    triggerBox, 0, 0, null, null, 
+    () => { // Player enter
+      isPlayerInShootingArea = true
+      shootingArea.getComponent(Material).emissiveColor = Color3.Yellow()
+    },
+    () => { // Player exit
+      isPlayerInShootingArea = false
+      shootingArea.getComponent(Material).emissiveColor = Color3.Black()
+    }
+  )
+)
+
 // Cache bullet mark on load otherwise the first bullet mark won't appear instantly when fired
 const bulletMarkShape = new GLTFShape("models/bulletMark.glb")
 const bulletMarkCache = new BulletMark(bulletMarkShape)
@@ -47,7 +64,7 @@ for (let i = 0; i < NUM_OF_TARGETS; i++) {
   posZ += 3
 }
 
-// Sound
+// Sounds
 const gunShot = new Entity()
 gunShot.addComponent(new AudioSource(new AudioClip("sounds/shot.mp3")))
 gunShot.addComponent(new Transform())
@@ -69,29 +86,13 @@ input.subscribe("BUTTON_DOWN", ActionButton.POINTER, true, (e) => {
   if (isPlayerInShootingArea) {
     gunShot.getComponent(AudioSource).playOnce()
     if (engine.entities[e.hit.entityId] != undefined) {
-      let position = e.hit.hitPoint.subtract(engine.entities[e.hit.entityId].getComponent(Transform).position)
+      // Calculate the position of where the bullet hits relative to the target
+      let relativePosition = e.hit.hitPoint.subtract(engine.entities[e.hit.entityId].getComponent(Transform).position)
       const bulletMark = new BulletMark(bulletMarkShape, DELETE_TIME)
-      bulletMark.setParent(engine.entities[e.hit.entityId])
-      bulletMark.getComponent(Transform).position = position
+      bulletMark.setParent(engine.entities[e.hit.entityId]) // Make the bullet mark the child of the target so that it remains on the target
+      bulletMark.getComponent(Transform).position = relativePosition
     }
   } else {
     gunShotFail.getComponent(AudioSource).playOnce()
   }
 })
-
-// Create trigger area
-let triggerBox = new utils.TriggerBoxShape(new Vector3(16, 16, 4), Vector3.Zero())
-
-shootingArea.addComponent(
-  new utils.TriggerComponent(
-    triggerBox, 0, 0, null, null, 
-    () => { // Player enter
-      isPlayerInShootingArea = true
-      shootingArea.getComponent(Material).emissiveColor = Color3.Yellow()
-    },
-    () => { // Player exit
-      isPlayerInShootingArea = false
-      shootingArea.getComponent(Material).emissiveColor = Color3.Black()
-    }
-  )
-)

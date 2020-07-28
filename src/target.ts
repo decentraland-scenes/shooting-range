@@ -1,4 +1,5 @@
 import utils from "../node_modules/decentraland-ecs-utils/index"
+import { ToggleState } from "../node_modules/decentraland-ecs-utils/toggle/toggleComponent"
 
 export class Target extends Entity {
   constructor(model: GLTFShape, startPos: Vector3, endPos: Vector3, time: number) {
@@ -7,8 +8,9 @@ export class Target extends Entity {
     this.addComponent(model)
     this.addComponent(new Transform())
 
+    // Move the targets back and forth between start and end positions
     this.addComponent(
-      new utils.ToggleComponent(utils.ToggleState.Off, (value) => {
+      new utils.ToggleComponent(utils.ToggleState.Off, (value: ToggleState) => {
         if (value == utils.ToggleState.On) {
           this.addComponentOrReplace(
             new utils.MoveTransformComponent(startPos, endPos, time, () => {
