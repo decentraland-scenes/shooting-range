@@ -7,7 +7,7 @@ _demo of shooting-range scene running in preview._
 Example of a gun game mechanic along with bullet marks. You can view the scene [here](https://shooting-range.vercel.app/).
 
 ## Instructions
-Stand inside the shooting area and use the Left Mouse Button to fire at the targets.
+Stand inside the shooting area marked in red and use the Left Mouse Button to fire at the targets.
 
 ## Running the scene
 After you clone the project, run the following:
