@@ -1,4 +1,7 @@
 # Shooting Range
+_demo of shooting-range scene running in preview._
+
+![demo](https://github.com/decentraland-scenes/shooting-range/blob/master/screenshots/shooting-range.gif)
 
 ## Description
 Example of a gun game mechanic along with bullet marks. You can view the scene [here](https://shooting-range.vercel.app/).
