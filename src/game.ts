@@ -31,7 +31,7 @@ bulletMarkCache.getComponent(Transform).scale.setAll(0)
 // Setup targets
 const targetShape = new GLTFShape("models/target.glb")
 const NUM_OF_TARGETS = 3
-let time = 3
+let time = 7
 let posZ = 7
 
 for (let i = 0; i < NUM_OF_TARGETS; i++) {
