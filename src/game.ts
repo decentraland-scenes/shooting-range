@@ -87,7 +87,8 @@ input.subscribe("BUTTON_DOWN", ActionButton.POINTER, true, (e) => {
     gunShot.getComponent(AudioSource).playOnce()
     if (engine.entities[e.hit.entityId] != undefined) {
       // Calculate the position of where the bullet hits relative to the target
-      let relativePosition = e.hit.hitPoint.subtract(engine.entities[e.hit.entityId].getComponent(Transform).position)
+      let targetPosition = engine.entities[e.hit.entityId].getComponent(Transform).position
+      let relativePosition = e.hit.hitPoint.subtract(targetPosition)
       const bulletMark = new BulletMark(bulletMarkShape, DELETE_TIME)
       bulletMark.setParent(engine.entities[e.hit.entityId]) // Make the bullet mark the child of the target so that it remains on the target
       bulletMark.getComponent(Transform).position = relativePosition
