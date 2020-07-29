@@ -5,7 +5,6 @@ import utils from "../node_modules/decentraland-ecs-utils/index"
 // Base scene
 const base = new Entity()
 base.addComponent(new GLTFShape("models/baseLight.glb"))
-base.addComponent(new Transform())
 engine.addEntity(base)
 
 // Shooting area
