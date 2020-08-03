@@ -4,22 +4,22 @@ _demo of shooting-range scene running in preview._
 ![demo](https://github.com/decentraland-scenes/shooting-range/blob/master/screenshots/shooting-range.gif)
 
 ## Description
-Example of a gun game mechanic along with bullet marks. You can view the scene [here](https://shooting-range.vercel.app/).
+Basic gun game mechanic along with bullet marks. To view the scene, please visit [here](https://shooting-range.vercel.app/).
 
 ## Instructions
-Stand inside the shooting area marked in red and use the Left Mouse Button to fire at the targets.
+Make sure you stand inside the shooting area marked in red before firing at the targets. Use your mouse to look around and <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> keys on your keyboard to move forward, left, backward and right respectively. ress the <kbd>Space</kbd> key to jump and the <kbd>Left Mouse Button</kbd> to shoot.
 
 ## Running the scene
 After you clone the project, run the following:
 
 ```
-npm install
+$ npm i -g decentraland
 ```
 
 Followed by:
 
 ```
-dcl start
+$ dcl start
 ```
 ## Acknowledgements
 
