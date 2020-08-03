@@ -7,7 +7,7 @@ _demo of shooting-range scene running in preview._
 Basic gun game mechanic along with bullet marks. To view the scene, please visit [here](https://shooting-range.vercel.app/).
 
 ## Instructions
-Make sure you stand inside the shooting area marked in red before firing at the targets. Use your mouse to look around and <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> keys on your keyboard to move forward, left, backward and right respectively. ress the <kbd>Space</kbd> key to jump and the <kbd>Left Mouse Button</kbd> to shoot.
+Make sure you stand inside the shooting area marked in red before firing at the targets. Use your mouse to look around and <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> keys on your keyboard to move forward, left, backward and right respectively. Press the <kbd>Space</kbd> key to jump and the <kbd>Left Mouse Button</kbd> to shoot.
 
 ## Running the scene
 After you clone the project, run the following:
