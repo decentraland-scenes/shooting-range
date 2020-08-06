@@ -22,6 +22,6 @@ Followed by:
 $ dcl start
 ```
 ## Acknowledgements
-
+The following files were taken from https://freesound.org/:
 - _shot.mp3_ modified from https://freesound.org/people/MATRIXXX_/sounds/473846/ 
 - _shotFail.mp3_ modified from https://freesound.org/people/jackyyang09/sounds/467432/
