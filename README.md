@@ -9,18 +9,24 @@ Basic gun game mechanic along with bullet marks. To view the scene, please visit
 ## Instructions
 Make sure you stand inside the shooting area marked in red before firing at the targets. Use your mouse to look around and <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> keys on your keyboard to move forward, left, backward and right respectively. Press the <kbd>Space</kbd> key to jump and the <kbd>Left Mouse Button</kbd> to shoot.
 
-## Running the scene
-After you clone the project, run the following:
+## Try it out
+
+**Install the CLI**
+
+Download and install the Decentraland CLI by running the following command:
 
 ```
 $ npm i -g decentraland
 ```
 
-Followed by:
+**Previewing the scene**
+
+Download this example and navigate to its directory, then run:
 
 ```
-$ dcl start
+$  dcl start
 ```
+
 ## Acknowledgements
 The following files were taken from https://freesound.org/:
 - _shot.mp3_ modified from https://freesound.org/people/MATRIXXX_/sounds/473846/ 
