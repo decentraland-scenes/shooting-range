@@ -1,5 +1,6 @@
 import { Target } from "./target"
 import { BulletMark } from "./bullet"
+import { Score } from "./score"
 import utils from "../node_modules/decentraland-ecs-utils/index"
 
 // Base scene
@@ -27,12 +28,18 @@ let triggerBox = new utils.TriggerBoxShape(new Vector3(16, 16, 4), Vector3.Zero(
 
 shootingArea.addComponent(
   new utils.TriggerComponent(
-    triggerBox, 0, 0, null, null, 
-    () => { // Player enter
+    triggerBox,
+    0,
+    0,
+    null,
+    null,
+    () => {
+      // Player enter
       isPlayerInShootingArea = true
       shootingArea.getComponent(Material).emissiveColor = Color3.Yellow()
     },
-    () => { // Player exit
+    () => {
+      // Player exit
       isPlayerInShootingArea = false
       shootingArea.getComponent(Material).emissiveColor = Color3.Black()
     }
@@ -47,7 +54,7 @@ bulletMarkCache.getComponent(Transform).scale.setAll(0)
 // Setup targets
 const targetShape = new GLTFShape("models/target.glb")
 const NUM_OF_TARGETS = 3
-let time = 7
+let time = 9
 let posZ = 7
 
 for (let i = 0; i < NUM_OF_TARGETS; i++) {
@@ -62,6 +69,11 @@ for (let i = 0; i < NUM_OF_TARGETS; i++) {
   time -= 0.33
   posZ += 3
 }
+
+// Score
+const scoreTen = new Score(new GLTFShape("models/scoreTen.glb"), new Transform())
+const scoreTwentyFive = new Score(new GLTFShape("models/scoreTwentyFive.glb"), new Transform())
+const scoreFifty = new Score(new GLTFShape("models/scoreFifty.glb"), new Transform())
 
 // Sounds
 const gunShot = new Entity()
@@ -88,6 +100,7 @@ input.subscribe("BUTTON_DOWN", ActionButton.POINTER, true, (e) => {
       // Calculate the position of where the bullet hits relative to the target
       let targetPosition = engine.entities[e.hit.entityId].getComponent(Transform).position
       let relativePosition = e.hit.hitPoint.subtract(targetPosition)
+      score(e.hit.meshName, targetPosition) // Play score animation
       const bulletMark = new BulletMark(bulletMarkShape, DELETE_TIME)
       bulletMark.setParent(engine.entities[e.hit.entityId]) // Make the bullet mark the child of the target so that it remains on the target
       bulletMark.getComponent(Transform).position = relativePosition
@@ -96,3 +109,24 @@ input.subscribe("BUTTON_DOWN", ActionButton.POINTER, true, (e) => {
     gunShotFail.getComponent(AudioSource).playOnce()
   }
 })
+
+// Show the score corresponding to where the target was hit
+function score(targetHit: string, targetPosition: Vector3): void {
+  switch (targetHit) {
+    case "target10_collider":
+      scoreTen.getComponent(Transform).position = targetPosition
+      scoreTen.getComponent(Transform).position.z -= 0.5
+      scoreTen.playAnimation()
+      break
+    case "target25_collider":
+      scoreTwentyFive.getComponent(Transform).position = targetPosition
+      scoreTwentyFive.getComponent(Transform).position.z -= 0.5
+      scoreTwentyFive.playAnimation()
+      break
+    case "target50_collider":
+      scoreFifty.getComponent(Transform).position = targetPosition
+      scoreFifty.getComponent(Transform).position.z -= 0.5
+      scoreFifty.playAnimation()
+      break
+  }
+}
