@@ -100,10 +100,10 @@ input.subscribe("BUTTON_DOWN", ActionButton.POINTER, true, (e) => {
       // Calculate the position of where the bullet hits relative to the target
       let targetPosition = engine.entities[e.hit.entityId].getComponent(Transform).position
       let relativePosition = e.hit.hitPoint.subtract(targetPosition)
-      score(e.hit.meshName, targetPosition) // Play score animation
       const bulletMark = new BulletMark(bulletMarkShape, DELETE_TIME)
       bulletMark.setParent(engine.entities[e.hit.entityId]) // Make the bullet mark the child of the target so that it remains on the target
       bulletMark.getComponent(Transform).position = relativePosition
+      score(e.hit.meshName, e.hit.hitPoint) // Play score animation
     }
   } else {
     gunShotFail.getComponent(AudioSource).playOnce()
