@@ -28,11 +28,7 @@ let triggerBox = new utils.TriggerBoxShape(new Vector3(16, 16, 4), Vector3.Zero(
 
 shootingArea.addComponent(
   new utils.TriggerComponent(
-    triggerBox,
-    0,
-    0,
-    null,
-    null,
+    triggerBox, null, null, null, null,
     () => {
       // Player enter
       isPlayerInShootingArea = true
