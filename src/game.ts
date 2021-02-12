@@ -1,11 +1,11 @@
-import { Target } from "./target"
-import { BulletMark } from "./bullet"
-import { Score } from "./score"
-import utils from "../node_modules/decentraland-ecs-utils/index"
+import { Target } from './target'
+import { BulletMark } from './bullet'
+import { Score } from './score'
+import * as utils from '@dcl/ecs-scene-utils'
 
 // Base scene
 const base = new Entity()
-base.addComponent(new GLTFShape("models/baseLight.glb"))
+base.addComponent(new GLTFShape('models/baseLight.glb'))
 engine.addEntity(base)
 
 // Shooting area
@@ -24,31 +24,31 @@ shootingArea.addComponent(redMaterial)
 engine.addEntity(shootingArea)
 
 // Create trigger for shooting area
-let triggerBox = new utils.TriggerBoxShape(new Vector3(16, 16, 4), Vector3.Zero())
+let triggerBox = new utils.TriggerBoxShape(
+  new Vector3(16, 16, 4),
+  Vector3.Zero()
+)
 
 shootingArea.addComponent(
-  new utils.TriggerComponent(
-    triggerBox, null, null, null, null,
-    () => {
-      // Player enter
+  new utils.TriggerComponent(triggerBox, {
+    onCameraEnter: () => {
       isPlayerInShootingArea = true
       shootingArea.getComponent(Material).emissiveColor = Color3.Yellow()
     },
-    () => {
-      // Player exit
+    onCameraExit: () => {
       isPlayerInShootingArea = false
       shootingArea.getComponent(Material).emissiveColor = Color3.Black()
-    }
-  )
+    },
+  })
 )
 
 // Cache bullet mark on load otherwise the first bullet mark won't appear instantly when fired
-const bulletMarkShape = new GLTFShape("models/bulletMark.glb")
+const bulletMarkShape = new GLTFShape('models/bulletMark.glb')
 const bulletMarkCache = new BulletMark(bulletMarkShape)
 bulletMarkCache.getComponent(Transform).scale.setAll(0)
 
 // Setup targets
-const targetShape = new GLTFShape("models/target.glb")
+const targetShape = new GLTFShape('models/target.glb')
 const NUM_OF_TARGETS = 3
 let time = 9
 let posZ = 7
@@ -67,19 +67,28 @@ for (let i = 0; i < NUM_OF_TARGETS; i++) {
 }
 
 // Score
-const scoreTen = new Score(new GLTFShape("models/scoreTen.glb"), new Transform())
-const scoreTwentyFive = new Score(new GLTFShape("models/scoreTwentyFive.glb"), new Transform())
-const scoreFifty = new Score(new GLTFShape("models/scoreFifty.glb"), new Transform())
+const scoreTen = new Score(
+  new GLTFShape('models/scoreTen.glb'),
+  new Transform()
+)
+const scoreTwentyFive = new Score(
+  new GLTFShape('models/scoreTwentyFive.glb'),
+  new Transform()
+)
+const scoreFifty = new Score(
+  new GLTFShape('models/scoreFifty.glb'),
+  new Transform()
+)
 
 // Sounds
 const gunShot = new Entity()
-gunShot.addComponent(new AudioSource(new AudioClip("sounds/shot.mp3")))
+gunShot.addComponent(new AudioSource(new AudioClip('sounds/shot.mp3')))
 gunShot.addComponent(new Transform())
 gunShot.getComponent(Transform).position = Camera.instance.position
 engine.addEntity(gunShot)
 
 const gunShotFail = new Entity()
-gunShotFail.addComponent(new AudioSource(new AudioClip("sounds/shotFail.mp3")))
+gunShotFail.addComponent(new AudioSource(new AudioClip('sounds/shotFail.mp3')))
 gunShotFail.addComponent(new Transform())
 gunShotFail.getComponent(Transform).position = Camera.instance.position
 engine.addEntity(gunShotFail)
@@ -89,12 +98,14 @@ const input = Input.instance
 const DELETE_TIME = 8 // In seconds
 let isPlayerInShootingArea = false
 
-input.subscribe("BUTTON_DOWN", ActionButton.POINTER, true, (e) => {
+input.subscribe('BUTTON_DOWN', ActionButton.POINTER, true, (e) => {
   if (isPlayerInShootingArea) {
     gunShot.getComponent(AudioSource).playOnce()
     if (engine.entities[e.hit.entityId] != undefined) {
       // Calculate the position of where the bullet hits relative to the target
-      let targetPosition = engine.entities[e.hit.entityId].getComponent(Transform).position
+      let targetPosition = engine.entities[e.hit.entityId].getComponent(
+        Transform
+      ).position
       let relativePosition = e.hit.hitPoint.subtract(targetPosition)
       const bulletMark = new BulletMark(bulletMarkShape, DELETE_TIME)
       bulletMark.setParent(engine.entities[e.hit.entityId]) // Make the bullet mark the child of the target so that it remains on the target
@@ -109,17 +120,17 @@ input.subscribe("BUTTON_DOWN", ActionButton.POINTER, true, (e) => {
 // Show the score corresponding to where the target was hit
 function score(targetHit: string, targetPosition: Vector3): void {
   switch (targetHit) {
-    case "target10_collider":
+    case 'target10_collider':
       scoreTen.getComponent(Transform).position = targetPosition
       scoreTen.getComponent(Transform).position.z -= 0.5
       scoreTen.playAnimation()
       break
-    case "target25_collider":
+    case 'target25_collider':
       scoreTwentyFive.getComponent(Transform).position = targetPosition
       scoreTwentyFive.getComponent(Transform).position.z -= 0.5
       scoreTwentyFive.playAnimation()
       break
-    case "target50_collider":
+    case 'target50_collider':
       scoreFifty.getComponent(Transform).position = targetPosition
       scoreFifty.getComponent(Transform).position.z -= 0.5
       scoreFifty.playAnimation()
