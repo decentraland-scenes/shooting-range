@@ -84,14 +84,12 @@ const scoreFifty = new Score(
 const gunShot = new Entity()
 gunShot.addComponent(new AudioSource(new AudioClip('sounds/shot.mp3')))
 gunShot.addComponent(new Transform())
-gunShot.getComponent(Transform).position = Camera.instance.position
-engine.addEntity(gunShot)
+gunShot.setParent(Attachable.AVATAR)
 
 const gunShotFail = new Entity()
 gunShotFail.addComponent(new AudioSource(new AudioClip('sounds/shotFail.mp3')))
 gunShotFail.addComponent(new Transform())
-gunShotFail.getComponent(Transform).position = Camera.instance.position
-engine.addEntity(gunShotFail)
+gunShotFail.setParent(Attachable.AVATAR)
 
 // Controls
 const input = Input.instance
@@ -103,9 +101,8 @@ input.subscribe('BUTTON_DOWN', ActionButton.POINTER, true, (e) => {
     gunShot.getComponent(AudioSource).playOnce()
     if (engine.entities[e.hit.entityId] != undefined) {
       // Calculate the position of where the bullet hits relative to the target
-      let targetPosition = engine.entities[e.hit.entityId].getComponent(
-        Transform
-      ).position
+      let targetPosition =
+        engine.entities[e.hit.entityId].getComponent(Transform).position
       let relativePosition = e.hit.hitPoint.subtract(targetPosition)
       const bulletMark = new BulletMark(bulletMarkShape, DELETE_TIME)
       bulletMark.setParent(engine.entities[e.hit.entityId]) // Make the bullet mark the child of the target so that it remains on the target
