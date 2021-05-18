@@ -84,11 +84,13 @@ const scoreFifty = new Score(
 const gunShot = new Entity()
 gunShot.addComponent(new AudioSource(new AudioClip('sounds/shot.mp3')))
 gunShot.addComponent(new Transform())
+engine.addEntity(gunShot)
 gunShot.setParent(Attachable.AVATAR)
 
 const gunShotFail = new Entity()
 gunShotFail.addComponent(new AudioSource(new AudioClip('sounds/shotFail.mp3')))
 gunShotFail.addComponent(new Transform())
+engine.addEntity(gunShotFail)
 gunShotFail.setParent(Attachable.AVATAR)
 
 // Controls
