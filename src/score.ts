@@ -1,4 +1,4 @@
-@Component("scoreFlag")
+@Component('scoreFlag')
 export class ScoreFlag {}
 
 export class Score extends Entity {
@@ -9,14 +9,16 @@ export class Score extends Entity {
     this.addComponent(transform)
     this.addComponent(new ScoreFlag())
     this.addComponent(new Animator())
-    this.getComponent(Animator).addClip(new AnimationState("Pop", { looping: false }))
+    this.getComponent(Animator).addClip(
+      new AnimationState('Pop', { looping: false })
+    )
   }
 
   // Play the score's pop up animation
   public playAnimation(): void {
     this.getComponent(Transform).lookAt(Camera.instance.position)
-    this.getComponent(Animator).getClip("Pop").stop() // Bug workaround
-    this.getComponent(Animator).getClip("Pop").play()
+    this.getComponent(Animator).getClip('Pop').stop() // Bug workaround
+    this.getComponent(Animator).getClip('Pop').play()
   }
 }
 
@@ -24,8 +26,8 @@ export class Score extends Entity {
 class ScoreTrackUserSystem {
   scoreGroup = engine.getComponentGroup(ScoreFlag)
   update() {
-    for (let entity of this.scoreGroup.entities) {
-      let entityTransform = entity.getComponent(Transform)
+    for (const entity of this.scoreGroup.entities) {
+      const entityTransform = entity.getComponent(Transform)
       entityTransform.lookAt(Camera.instance.position)
     }
   }

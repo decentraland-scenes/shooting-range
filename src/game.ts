@@ -17,14 +17,14 @@ shootingArea.addComponent(new BoxShape())
 shootingArea.addComponent(
   new Transform({
     position: new Vector3(8, 0.075, 2),
-    scale: new Vector3(16, 0.05, 4),
+    scale: new Vector3(16, 0.05, 4)
   })
 )
 shootingArea.addComponent(redMaterial)
 engine.addEntity(shootingArea)
 
 // Create trigger for shooting area
-let triggerBox = new utils.TriggerBoxShape(
+const triggerBox = new utils.TriggerBoxShape(
   new Vector3(16, 16, 4),
   Vector3.Zero()
 )
@@ -38,7 +38,7 @@ shootingArea.addComponent(
     onCameraExit: () => {
       isPlayerInShootingArea = false
       shootingArea.getComponent(Material).emissiveColor = Color3.Black()
-    },
+    }
   })
 )
 
@@ -55,9 +55,9 @@ let posZ = 7
 
 for (let i = 0; i < NUM_OF_TARGETS; i++) {
   // Define two positions for toggling
-  let startPosX = new Vector3(1, 1.5, posZ)
-  let endPosX = new Vector3(14, 1.5, posZ)
-  if (i % 2 == 0) {
+  const startPosX = new Vector3(1, 1.5, posZ)
+  const endPosX = new Vector3(14, 1.5, posZ)
+  if (i % 2 === 0) {
     const target = new Target(targetShape, startPosX, endPosX, time)
   } else {
     const target = new Target(targetShape, endPosX, startPosX, time)
@@ -101,11 +101,11 @@ let isPlayerInShootingArea = false
 input.subscribe('BUTTON_DOWN', ActionButton.POINTER, true, (e) => {
   if (isPlayerInShootingArea) {
     gunShot.getComponent(AudioSource).playOnce()
-    if (engine.entities[e.hit.entityId] != undefined) {
+    if (engine.entities[e.hit.entityId] !== undefined) {
       // Calculate the position of where the bullet hits relative to the target
-      let targetPosition =
+      const targetPosition =
         engine.entities[e.hit.entityId].getComponent(Transform).position
-      let relativePosition = e.hit.hitPoint.subtract(targetPosition)
+      const relativePosition = e.hit.hitPoint.subtract(targetPosition)
       const bulletMark = new BulletMark(bulletMarkShape, DELETE_TIME)
       bulletMark.setParent(engine.entities[e.hit.entityId]) // Make the bullet mark the child of the target so that it remains on the target
       bulletMark.getComponent(Transform).position = relativePosition
